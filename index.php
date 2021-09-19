@@ -5,10 +5,10 @@ $rooting =[
 "home" => "home.php",
 "inscription" => "inscription.php"
 ];
-if(array_key_exists($_GET['action'],$rooting) and !empty($_GET['action']))
+if(array_key_exists($_GET['action'],$rooting))
 {
     $action=$rooting[$_GET['action']];
-}else
+    
 {
     $action = "404.php"; 
     header("HTTP/1.1 404 Not Found");
