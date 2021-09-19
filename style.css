@@ -402,9 +402,14 @@ footer a{
     }
 }
 
-
+/*404*/
 #e404{
     color:white;
     font-size: 3rem;
     text-align: center;
+}
+#i404{
+    object-fit: contain;
+    margin: 0 auto;
+    display: block;
 }
