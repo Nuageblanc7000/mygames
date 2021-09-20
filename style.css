@@ -2,7 +2,7 @@
 :root{
     /*color root*/
     --ColorMText:#ff5400;
-    --ActionColor:default;
+    --ActionBg:attr(data-img);
     --colorLink:blanchedalmond;
     --colorText:rgb(250, 239, 221);
     --colorHeadNav:#080808;
@@ -402,6 +402,61 @@ footer a{
     }
 }
 
+
+
+/*pgame*/
+.bgVar #news .games{
+    display:flex;
+    flex-direction: column;
+    height: auto;
+    overflow-x:hidden ;
+    border-radius: inherit;
+}
+.bgVar #news .gameImg{
+    min-height: 30vh;
+}
+.gameImg img{
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+.bgVar #news .games .cardInfo{
+    background-color: rgba(255, 255, 255, 0.863);
+    padding:1rem;
+    height: auto;
+}
+.bgVar #news .games .cardInfo h1{
+    text-align: center;
+    font-family: var(--categories);
+    font-size:2.3rem;
+}
+.bgVar #news .games .cardInfo .describe_game{
+    display: flex;
+    align-items: center;
+    font-family: var(--text);
+    font-size: 1.3rem;
+    font-weight: bold;
+    padding:inherit;
+    min-height: 10vh;
+}
+
+.bgVar #news .games .cardInfo .categorie{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    min-height: 5vh;
+    
+}
+.bgVar #news .games .cardInfo .categorie a{
+    font-size: 1.3rem;
+    font-family: var(--categories);
+    border:black 1px solid;
+    border-radius: 1rem;
+    min-width: 10rem;
+    text-align: center; 
+    margin:0.3rem;
+}
 /*404*/
 #e404{
     color:white;
