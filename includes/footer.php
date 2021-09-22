@@ -1,3 +1,9 @@
+<?php
+if(isset($_SESSION['level']) and $_SESSION['level']=="administrateur" ){
+    header("HTTP/1.1 404 Not Found");
+}
+?>
+
 <footer>
         <div class="wrapper">
 

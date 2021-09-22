@@ -448,14 +448,21 @@ footer a{
     min-height: 5vh;
     
 }
-.bgVar #news .games .cardInfo .categorie a{
+.bgVar #news .games .cardInfo .categorie .cat{
     font-size: 1.3rem;
     font-family: var(--categories);
     border:black 1px solid;
     border-radius: 1rem;
+    color: gray;
     min-width: 10rem;
     text-align: center; 
     margin:0.3rem;
+    padding:0.4rem;
+    background: rgba(0, 0, 0, 0.171);
+}
+.bgVar #news .games .cardInfo .categorie .cat:hover{
+    background:var(--colorOver);
+    color:whitesmoke;
 }
 /*404*/
 #e404{

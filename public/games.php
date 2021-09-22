@@ -1,9 +1,4 @@
-<?php
- $verifId = ('SELECT game.*,  genre.name_genre as genreName  FROM `game_genre` INNER JOIN genre
- ON genre.PK_genre =  game_genre.FK_genre  INNER JOIN game ON game.PK_game = game_genre.FK_game where game.PK_game=?');
- $verifIdRequest = $bd -> prepare($verifId);
- $verifIdRequest -> execute([$id]);
-?>
+
 <section class="bgVar" data-bg=img/<?=$don['bg_game']?>>
 
         <div id="news" class="wrapper">
@@ -21,11 +16,16 @@
 
                     <div class="categorie">
                         <?php
-                        while($dons = $verifIdRequest -> fetch()){
+                         $sqlCatego = ('SELECT game.*,  genre.name_genre as genreName , FK_genre as FkGenre FROM `game_genre` INNER JOIN genre
+                         ON genre.PK_genre =  game_genre.FK_genre  INNER JOIN game ON game.PK_game = game_genre.FK_game where game.PK_game=?');
+                         $categoIdRequest = $bd -> prepare($sqlCatego);
+                         $categoIdRequest -> execute([$idGame]);
 
-                            echo '<a href="" class="cat">'.$dons['genreName'].'</a>';
+                        while($donsCat = $categoIdRequest -> fetch()){
+
+                            echo '<a href="index.php?action=categories&id='.$donsCat['FkGenre'].'" class="cat">'.$donsCat['genreName'].'</a>';
                         }
-                        $verifIdRequest -> closeCursor();
+                        $categoIdRequest -> closeCursor();
                         ?>
                         
                         
