@@ -12,7 +12,6 @@ if(!$categoIdRequest -> rowCount()){
 }else{
     
     while($donsCat = $categoIdRequest -> fetch()){
-
         echo'
 <div class="item-grid">
 <a href="index.php?action=games&id='.$donsCat['PK_game'].'">

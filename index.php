@@ -9,7 +9,8 @@ $rooting =[
 "home" => "home.php",
 "inscription" => "inscription.php",
 "games" => "games.php",
-"categories" => "categories.php"
+"categories" => "categories.php",
+"consoles" => "consoles.php"
 ];
 //puis ici je vais vérfier que ce qui est dans mon get action est égale à ce qu'il y a dans le tableau
 if(array_key_exists($_GET['action'],$rooting))
@@ -20,7 +21,6 @@ if(array_key_exists($_GET['action'],$rooting))
         if(isset($_GET['id']) and !empty($_GET['id'])){
             $idGame=htmlspecialchars($_GET['id']);
             //verification de l'id reçu en get
-            
             $verifId = ('SELECT * from game where PK_game=?');
             $verifIdRequest = $bd -> prepare($verifId);
             $verifIdRequest -> execute([$idGame]);
@@ -35,7 +35,9 @@ if(array_key_exists($_GET['action'],$rooting))
             $action = "404.php"; 
             header("HTTP/1.1 404 Not Found");
         }
-    }elseif(isset($_GET['action'])=="categories"){
+
+        //ici on va vérifier l'id reçu pour voir si la catégories envoyée pour le filtre existe vraiment.
+    }elseif($_GET['action']=="categories"){
         if(isset($_GET['id']) and !empty($_GET['id'])){
             $idCat = htmlspecialchars($_GET['id']);
           $verifIdCat =("SELECT * from genre where PK_genre=?");
@@ -52,7 +54,23 @@ if(array_key_exists($_GET['action'],$rooting))
             $action = "404.php"; 
             header("HTTP/1.1 404 Not Found");
         }
-    }
+    }elseif($_GET['action']=="consoles"){
+        if(isset($_GET['id']) and !empty($_GET['id'])){
+            $idConsoles = htmlspecialchars($_GET['id']);
+            $verifidConsoles =("SELECT * from consoles where PK_consoles=?");
+          $verifidConsolesRequest = $bd ->prepare($verifidConsoles);
+          $verifidConsolesRequest -> execute([$idConsoles]);
+          if(!$donCons = $verifidConsolesRequest ->fetch()){
+            $action = "404.php"; 
+            header("HTTP/1.1 404 Not Found");  
+          }else{
+              $action=$rooting["consoles"];
+          }
+        }else{
+            $action = "404.php"; 
+            header("HTTP/1.1 404 Not Found");
+        }
+     }
     
     else{
         //si l'info est dans le tableau alors on on dit que action sera egale à get action sinon on le renvoi sur une page 404
@@ -71,6 +89,8 @@ if(array_key_exists($_GET['action'],$rooting))
 }else{
     $action="home.php";
 }
+
+//les différents includes de mes appels.
 include "includes/header.php";
 require 'public/'.$action;
 include "includes/footer.php";

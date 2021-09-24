@@ -411,9 +411,11 @@ footer a{
     height: auto;
     overflow-x:hidden ;
     border-radius: inherit;
+    position: relative;
 }
 .bgVar #news .gameImg{
     min-height: 30vh;
+    position: relative;
 }
 .gameImg img{
     object-fit: cover;
@@ -448,10 +450,10 @@ footer a{
     min-height: 5vh;
     
 }
+
 .bgVar #news .games .cardInfo .categorie .cat{
     font-size: 1.3rem;
     font-family: var(--categories);
-    border:black 1px solid;
     border-radius: 1rem;
     color: gray;
     min-width: 10rem;
@@ -462,7 +464,37 @@ footer a{
 }
 .bgVar #news .games .cardInfo .categorie .cat:hover{
     background:var(--colorOver);
-    color:whitesmoke;
+    color:whitesmoke;   
+}
+/*plateforme*/
+.bgVar #news .gameImg .plateforme{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    bottom:0;
+    padding:0.4rem;
+    border-top-right-radius: 0.5rem;
+    z-index: 10;
+    min-width: min-content;
+    background:white;
+    box-shadow: rgba(0, 0, 0, 0.534) 0  px 0px 1px 0.4px;
+}
+.bgVar #news .gameImg .plateforme a{
+   display: inline-block;
+}
+.bgVar #news .gameImg .plateforme a i{
+    font-size: 2rem;  
+    color: var(--colorOver);
+    pointer-events: none;
+    user-select: none;
+    padding:0.4rem;
+    cursor:pointer;
+}
+.bgVar #news .gameImg .plateforme h4{
+    user-select: none;
+    font-size: 1rem;
+    padding:0.4rem;
 }
 /*404*/
 #e404{
