@@ -19,21 +19,37 @@ if(isset($_GET['id']) and !empty($_GET['id'])){
     header("HTTP/1.1 404 Not Found");
 
 }
-$viewGenres = ('SELECT * from genre');
-$verifGenres = $bd -> query($viewGenres);
 
-$viewGenre = ('SELECT genre.name_genre as genreN,genre.PK_genre as PkGenre, game_genre.FK_game as FkGame from game_genre 
-LEFT JOIN genre ON genre.PK_genre = FK_genre 
-LEFT JOIN game ON game.PK_game =FK_game');
+$viewGenre = ('SELECT genre.name_genre AS genreN,genre.PK_genre as  PkGenre, FK_game AS Fkgame FROM genre 
+LEFT JOIN game_genre on genre.PK_genre = game_genre.FK_genre 
+LEFT JOIN game on game.PK_game = game_genre.FK_game');
 $verifGenre = $bd -> query($viewGenre);
 include "includes/header.php";
 echo'
 <main class="container">
-<div class="row m-auto">
+
+<div class="row m-auto">';
+
+if(isset($_GET['success'])){
+
+    echo'<div class="col-12 bg-success text-center"><h4>le fichier portant l\'id'.$don['PK_game'].'</h4></div>';
+}
+if(isset($_GET['error'])){
+    if($_GET['error']==1){
+        echo'<div class="col-12 bg-danger text-center"><h4>veuillez indiquer un nom au jeux</h4></div>';
+    }elseif($_GET['error']==2){
+        echo'<div class="col-12 bg-danger text-center"><h4>veuillez indiquer une date</h4></div>';   
+    }elseif($_GET['error']==3){
+        echo'<div class="col-12 bg-danger text-center"><h4>veuillez indiquer une description</h4></div>';   
+    }
+}
+echo'
 <form action="traitementUpdate.php?id='.$don['PK_game'].'" method="post" enctype="multipart/form-data">
 ';
-   while($donSelectGenre = $verifGenre ->fetch()){
-    if ($donSelectGenre['FkGame'] == $idGame)
+echo'
+<div class="col-12">';
+while($donSelectGenre = $verifGenre ->fetch()){
+    if ($donSelectGenre['Fkgame'] == $idGame)
     {
         echo '<div class="form-check">';
         echo '<input class="form-check-input" type="checkbox" name="genres[]" value="'.$donSelectGenre['PkGenre'].'" checked>';
@@ -45,9 +61,10 @@ echo'
         echo '<label class="form-check-label">'.$donSelectGenre['genreN'].'</label>';
         echo '</div>';
     }
-   }
+}
 
-    echo'
+echo'
+</div>
     </label>
     <label for="name_game" class="form-label">Non du jeux:</label>
     <input  class="form-control" type="text" name="name_game" id="name_game" value="'.$don['name_game'].'">
