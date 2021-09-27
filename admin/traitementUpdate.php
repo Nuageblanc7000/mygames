@@ -40,19 +40,49 @@ if(empty($_POST['genres'])){
 }else{
     $genres=$_POST['genres'];
 }
+if(empty($_POST['consoles'])){
+    $err=7;
+
+}else{
+    $consoles=$_POST['consoles'];
+}
 if($err==0){
-    //on crée aussi les genre à partir d'ici comme ça si avant il y a eu un problème avec le jeu les gens ne sont pas envoyé seul
     
+    
+    //on crée aussi les genre à partir d'ici comme ça si avant il y a eu un problème avec le jeu les gens ne sont pas envoyé seul
+    // on supprime d'abord tout pour après faire l'insertions des nouveaux genres
     $sqlDeleteGenre =("DELETE  FROM game_genre where FK_game=:FkGame");
     $reqDeleteeGenre = $bd -> prepare($sqlDeleteGenre);
     $reqDeleteeGenre -> execute([
         ':FkGame' => $idUpdateGame]);
+        $reqDeleteeGenre -> closeCursor();
+// on vient les remettres ici en les traitant 
         for ($i=0; $i < count($genres) ; $i++) { 
             htmlspecialchars($genres[$i]);
             $sqlUdpateGenre =("INSERT INTO game_genre  (FK_genre,FK_game) values(?,?)");
             $reqUpdateGenre = $bd -> prepare($sqlUdpateGenre);
             $reqUpdateGenre -> execute([$genres[$i],$idUpdateGame]);
-    if(empty($_FILES['img_game']['tmp_name'])){
+             }
+             $reqUpdateGenre -> closeCursor();
+    
+
+             // on vient faire pareil pour les consoles 
+    $sqlDeleteConsoles =("DELETE  FROM game_consoles where FK_game=:FkGame");
+    $reqDeleteeConsoles = $bd -> prepare($sqlDeleteConsoles);
+    $reqDeleteeConsoles -> execute([
+        ':FkGame' => $idUpdateGame]);
+    
+    $reqDeleteeConsoles -> closeCursor();
+// on vient les remettres ici en les traitant 
+        for ($f=0; $f < count($consoles) ; $f++) { 
+            htmlspecialchars($consoles[$f]);
+            $sqlUdpateConsoles =("INSERT INTO game_consoles  (FK_consoles,FK_game) values(?,?)");
+            $reqUpdateConsoles = $bd -> prepare($sqlUdpateConsoles);
+            $reqUpdateConsoles -> execute([$consoles[$f],$idUpdateGame]);
+             }
+             $reqUpdateConsoles -> closeCursor();
+             
+    if(empty($_FILES['img_game']['tmp_name'])){//si aucun fichier je fais l'update du reste sans demander à la bd de modifié l'image
         $sqlUpdate =("UPDATE game SET name_game=:nameG, date_game=:dGame,describe_game=:descGame WHERE PK_game=:id");
         $reqUpdates = $bd -> prepare($sqlUpdate);
         $reqUpdates -> execute(
@@ -65,14 +95,73 @@ if($err==0){
         );
         header("LOCATION:update?id=".$donGames['PK_game']."&success");
     }else{
-        unlink('../img/'.$don['game_img'].'')
-    }
-}
+         // si il y a un changement d'image.
+         $path = '../img/';
+         $pathMini ='../img/mini_';
+         $tmpName = $_FILES['img_game']['tmp_name'];
+         // la fonction filesize nous permet de récupérer la taille d'un fichier.
+         $sizeFile = filesize($tmpName);
+         $maxSize=1000000;
+         // on utilise la fonction basename pour récupérer le nom du fichier
+         $fichier = basename($_FILES['img_game']['name']);
+         // récupération de l'extension et je la transforme en minuscule si jamais on reçois une extension en maj.
+         $extension = strtolower(strrchr($fichier,'.'));
+         $extensionAut = ['.jpg','.png','.jpeg','.svg','.jfif'];
+         var_dump($fichier,$sizeFile,$extension);
+         
+         // puis on test la taille du fichier.
+         if($maxSize<$sizeFile){
+             $err=5;
+             echo "la tailel est trop grande";
+            }
+            if(!in_array($extension,$extensionAut)){
+                $err=6;
+                echo "mauvaise extension";
+            }
+            if(!$err){// si l'erreur n'existe pas alors je fini le traitement du fichier et je l'envoi.
+                $fichier = strtr($fichier, 
+                'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ', 
+                'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
+                // on remplace tout les caractères spéciaux par des tirets.
+                $fichier = preg_replace('/([^.a-z0-9]+)/i', '-', $fichier);
+                
+                // on vient créer un numéro aléatoire au début du nom de fichier pour éviter les doublons qui pourrait venir écraser l'autre.
+                $fichierRand = rand().$fichier;
+                // on créer une variable qui contient le chemin + le nom du fichier.
+                $FileMove =$path . $fichierRand;
+                var_dump($FileMove);
+                if(move_uploaded_file($tmpName,$FileMove)){
+                    //on va supprimer les images ainsi que la miniatures avant l'upload des nouveaux fichiers.
+                     unlink($path.$donGames['img_game']);
+    
+                    // on met une condition pour vérifier que le fichier c'est bien upploadé 
+                    // unlink($pathMini.$don['game_img']);
+                    // si l'image c'est bien envoyée alors on peut maintenant faire notre requête update pour transmettre les autres infos du jeux.
+                    $sqlUpdate =("UPDATE game SET name_game=:nameG, date_game=:dGame,describe_game=:descGame ,img_game=:img WHERE PK_game=:id");
+        $reqUpdates = $bd -> prepare($sqlUpdate);
+        $reqUpdates -> execute(
+            [
+                "nameG" => $gameName,
+                "dGame" => $gameDate,
+                "descGame" => $gameDescribe,
+                "img" => $fichierRand,
+                "id" => $idUpdateGame
+            ]
+        );
+                }
+                $reqUpdates -> closeCursor();
+                header("LOCATION:update?id=".$donGames['PK_game']."&success");
+
+            }else{
+                header("LOCATION:update?id=".$donGames['PK_game']."&error=$err");
+            }
+        }
         
-}else{
-    //si une erreur est détectée on renvoi l'erreur en GET
-    header("LOCATION:update?id=".$donGames['PK_game']."&error=$err");
-}
+        
+    }else{
+        //si une erreur est détectée on renvoi l'erreur en GET
+        header("LOCATION:update?id=".$donGames['PK_game']."&error=$err");
+    }
 }else{
     header("LOCATION:dashboard.php");
 }

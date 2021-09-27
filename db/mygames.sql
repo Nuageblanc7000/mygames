@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 22 sep. 2021 à 22:48
+-- Généré le : ven. 24 sep. 2021 à 11:52
 -- Version du serveur :  5.7.31
 -- Version de PHP : 7.3.21
 
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `game_consoles` (
   PRIMARY KEY (`PK_game_consoles`),
   KEY `FK_game` (`FK_game`),
   KEY `FK_consoles` (`FK_consoles`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `game_consoles`
@@ -92,7 +92,12 @@ CREATE TABLE IF NOT EXISTS `game_consoles` (
 
 INSERT INTO `game_consoles` (`PK_game_consoles`, `FK_game`, `FK_consoles`) VALUES
 (1, 1, 1),
-(2, 1, 2);
+(2, 1, 2),
+(3, 2, 1),
+(4, 2, 2),
+(5, 2, 3),
+(6, 4, 3),
+(7, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -166,19 +171,20 @@ CREATE TABLE IF NOT EXISTS `membres` (
   `member_PK` int(11) NOT NULL AUTO_INCREMENT,
   `member_name` varchar(80) DEFAULT NULL,
   `member_mail` varchar(200) DEFAULT NULL,
-  `PASSWORD` varchar(255) DEFAULT NULL,
+  `member_password` varchar(255) DEFAULT NULL,
   `status` tinyint(4) DEFAULT NULL,
   `date_member` datetime DEFAULT CURRENT_TIMESTAMP,
   `level` varchar(100) NOT NULL,
   PRIMARY KEY (`member_PK`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `membres`
 --
 
-INSERT INTO `membres` (`member_PK`, `member_name`, `member_mail`, `PASSWORD`, `status`, `date_member`, `level`) VALUES
-(1, 'remy', 'wetterene.remy@gmail.com', '$2y$10$wUyvS1xECbySHh4Rb4ZrPuOmT07uM1xegL.sjdwLdNbyRBdhAEL.C', 0, '2021-09-20 00:05:42', 'admin');
+INSERT INTO `membres` (`member_PK`, `member_name`, `member_mail`, `member_password`, `status`, `date_member`, `level`) VALUES
+(1, 'remy', 'wetterene.remy@gmail.com', '$2y$10$qJZQ00dQn3gwTCqikXrEuuBXfH2oTwZRIrqh8A/9IS/r9vSLnpbnC', 0, '2021-09-20 00:05:42', 'admin'),
+(2, 'test', 'test@gmail.com', '$2y$10$qJZQ00dQn3gwTCqikXrEuuBXfH2oTwZRIrqh8A/9IS/r9vSLnpbnC', 0, '2021-09-23 21:16:34', 'membre');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -17,15 +17,15 @@ header("LOCATION:index.php");
 
 <nav class=" navbar navbar-expand-lg navbar-light"style="background-color:#ff5400;">
   <div class="container-fluid">
-    <a class="navbar-brand " style="font-weight:bold;" href="#">Mygames</a>
+    <a class="navbar-brand " style="font-weight:bold;" href="../index.php">Mygames</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-link active text-white" aria-current="page" href="#">Home</a>
-        <a class="nav-link text-white" href="#">Features</a>
-        <a class="nav-link text-white" href="#">Pricing</a>
+        <a class="nav-link active text-white" aria-current="page" href="dashboard.php">Accueil</a>
+        <a class="nav-link text-white" href="#">Gestion User</a>
+        <a class="nav-link text-white" href="addGame.php">Ajouter-Jeux</a>
         <a class="nav-link text-white" href="dashboard.php?deco" tabindex="-1" aria-disabled="false">Déconnexion</a>
       </div>
     </div>
