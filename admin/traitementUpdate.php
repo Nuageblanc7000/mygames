@@ -82,7 +82,7 @@ if($err==0){
              }
              $reqUpdateConsoles -> closeCursor();
              
-    if(empty($_FILES['img_game']['tmp_name'])){//si aucun fichier je fais l'update du reste sans demander à la bd de modifié l'image
+    if(empty($_FILES['img_game']['tmp_name']) and empty($_FILES['bg_game']['tmp_name'])){//si aucun fichier je fais l'update du reste sans demander à la bd de modifié l'image
         $sqlUpdate =("UPDATE game SET name_game=:nameG, date_game=:dGame,describe_game=:descGame WHERE PK_game=:id");
         $reqUpdates = $bd -> prepare($sqlUpdate);
         $reqUpdates -> execute(
@@ -94,7 +94,69 @@ if($err==0){
             ]
         );
         header("LOCATION:update?id=".$donGames['PK_game']."&success");
-    }else{
+    }elseif(empty($_FILES['img_game']['tmp_name']) and !empty($_FILES['bg_game']['tmp_name'])){
+    // si il y a un changement d'image.
+    $path = '../img/';
+    $pathMini ='../img/mini_';
+    $tmpName2 = $_FILES['bg_game']['tmp_name'];
+    // la fonction filesize nous permet de récupérer la taille d'un fichier.
+    $sizeFile2 = filesize($tmpName);
+    $maxSize=1000000;
+    // on utilise la fonction basename pour récupérer le nom du fichier
+    $fichier2 = basename($_FILES['bg_game']['name']);
+    // récupération de l'extension et je la transforme en minuscule si jamais on reçois une extension en maj.
+    $extension2 = strtolower(strrchr($fichier2,'.'));
+    $extensionAut = ['.jpg','.png','.jpeg','.svg','.jfif'];
+    //var_dump($fichier,$sizeFile,$extension);
+    
+    // puis on test la taille du fichier.
+    if($maxSize<$sizeFile2){
+        $err=5;
+        echo "la tailel est trop grande";
+       }
+       if(!in_array($extension2,$extensionAut)){
+           $err=6;
+           echo "mauvaise extension";
+       }
+       if(!$err){// si l'erreur n'existe pas alors je fini le traitement du fichier et je l'envoi.
+           $fichier2 = strtr($fichier2, 
+           'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ', 
+           'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
+           // on remplace tout les caractères spéciaux par des tirets.
+           $fichier2 = preg_replace('/([^.a-z0-9]+)/i', '-', $fichier2);
+           
+           // on vient créer un numéro aléatoire au début du nom de fichier pour éviter les doublons qui pourrait venir écraser l'autre.
+           $fichierRand2 = rand().$fichier2;
+           // on créer une variable qui contient le chemin + le nom du fichier.
+           $FileMove2 =$path . $fichierRand2;
+
+           if(move_uploaded_file($tmpName2,$FileMove2)){
+               //on va supprimer les images ainsi que la miniatures avant l'upload des nouveaux fichiers.
+                unlink($path.$donGames['bg_game']);
+               // on met une condition pour vérifier que le fichier c'est bien upploadé 
+               // unlink($pathMini.$don['game_img']);
+               // si l'image c'est bien envoyée alors on peut maintenant faire notre requête update pour transmettre les autres infos du jeux.
+               $sqlUpdate =("UPDATE game SET name_game=:nameG, date_game=:dGame,describe_game=:descGame ,img_game=:img,bg_game=:bg WHERE PK_game=:id");
+   $reqUpdates = $bd -> prepare($sqlUpdate);
+   $reqUpdates -> execute(
+       [
+           "nameG" => $gameName,
+           "dGame" => $gameDate,
+           "descGame" => $gameDescribe,
+           "img" => $donGames['img_game'],
+           "bg" => $fichierRand2,
+           "id" => $idUpdateGame
+       ]
+   );
+           }
+           $reqUpdates -> closeCursor();
+           header("LOCATION:update?id=".$donGames['PK_game']."&success");
+
+       }else{
+           header("LOCATION:update?id=".$donGames['PK_game']."&error=$err");
+       }
+
+    }elseif(!empty($_FILES['img_game']['tmp_name']) and empty($_FILES['bg_game']['tmp_name'])){
          // si il y a un changement d'image.
          $path = '../img/';
          $pathMini ='../img/mini_';
@@ -107,7 +169,7 @@ if($err==0){
          // récupération de l'extension et je la transforme en minuscule si jamais on reçois une extension en maj.
          $extension = strtolower(strrchr($fichier,'.'));
          $extensionAut = ['.jpg','.png','.jpeg','.svg','.jfif'];
-         var_dump($fichier,$sizeFile,$extension);
+         //var_dump($fichier,$sizeFile,$extension);
          
          // puis on test la taille du fichier.
          if($maxSize<$sizeFile){
@@ -133,11 +195,12 @@ if($err==0){
                 if(move_uploaded_file($tmpName,$FileMove)){
                     //on va supprimer les images ainsi que la miniatures avant l'upload des nouveaux fichiers.
                      unlink($path.$donGames['img_game']);
+                     unlink($pathMini.$donGames['img_game']);
     
                     // on met une condition pour vérifier que le fichier c'est bien upploadé 
                     // unlink($pathMini.$don['game_img']);
                     // si l'image c'est bien envoyée alors on peut maintenant faire notre requête update pour transmettre les autres infos du jeux.
-                    $sqlUpdate =("UPDATE game SET name_game=:nameG, date_game=:dGame,describe_game=:descGame ,img_game=:img WHERE PK_game=:id");
+                    $sqlUpdate =("UPDATE game SET name_game=:nameG, date_game=:dGame,describe_game=:descGame ,img_game=:img,bg_game=:bg WHERE PK_game=:id");
         $reqUpdates = $bd -> prepare($sqlUpdate);
         $reqUpdates -> execute(
             [
@@ -145,12 +208,99 @@ if($err==0){
                 "dGame" => $gameDate,
                 "descGame" => $gameDescribe,
                 "img" => $fichierRand,
+                "bg" => $donGames['bg_game'],
                 "id" => $idUpdateGame
             ]
         );
                 }
                 $reqUpdates -> closeCursor();
-                header("LOCATION:update?id=".$donGames['PK_game']."&success");
+                
+                if($extension === ".png"){
+                    header("LOCATION:redimPng.php?image=".$fichierRand);
+                }else{
+                   header("LOCATION:redim.php?image=".$fichierRand);
+                }
+
+            }else{
+                header("LOCATION:update?id=".$donGames['PK_game']."&error=$err");
+            }
+    
+        }
+    
+    
+    else{
+         // si il y a un changement d'image.
+         $path = '../img/';
+         $pathMini ='../img/mini_';
+         $tmpName = $_FILES['img_game']['tmp_name'];
+         $tmpName2 = $_FILES['bg_game']['tmp_name'];
+         // la fonction filesize nous permet de récupérer la taille d'un fichier.
+         $sizeFile = filesize($tmpName);
+         $sizeFile2 = filesize($tmpName2);
+         $maxSize=1000000;
+         // on utilise la fonction basename pour récupérer le nom du fichier
+         $fichier = basename($_FILES['img_game']['name']);
+         $fichier2 = basename($_FILES['bg_game']['name']);
+         // récupération de l'extension et je la transforme en minuscule si jamais on reçois une extension en maj.
+         $extension = strtolower(strrchr($fichier,'.'));
+         $extension2 = strtolower(strrchr($fichier2,'.'));
+         $extensionAut = ['.jpg','.png','.jpeg','.svg','.jfif'];
+         //var_dump($fichier,$sizeFile,$extension);
+         
+         // puis on test la taille du fichier.
+         if($maxSize<$sizeFile or $maxSize<$sizeFile2){
+             $err=5;
+             echo "la tailel est trop grande";
+            }
+            if(!in_array($extension,$extensionAut) or !in_array($extension2,$extensionAut)){
+                $err=6;
+                echo "mauvaise extension";
+            }
+            if(!$err){// si l'erreur n'existe pas alors je fini le traitement du fichier et je l'envoi.
+                $fichier = strtr($fichier, 
+                'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ', 
+                'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
+                $fichier2 = strtr($fichier2, 
+                'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ', 
+                'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
+                // on remplace tout les caractères spéciaux par des tirets.
+                $fichier = preg_replace('/([^.a-z0-9]+)/i', '-', $fichier);
+                $fichier2 = preg_replace('/([^.a-z0-9]+)/i', '-', $fichier2);
+                
+                // on vient créer un numéro aléatoire au début du nom de fichier pour éviter les doublons qui pourrait venir écraser l'autre.
+                $fichierRand = rand().$fichier;
+                $fichierRand2 = rand().$fichier2;
+                // on créer une variable qui contient le chemin + le nom du fichier.
+                $FileMove =$path . $fichierRand;
+                $FileMove2=$path . $fichierRand2;
+                var_dump($FileMove);
+                if(move_uploaded_file($tmpName,$FileMove) and move_uploaded_file($tmpName2,$FileMove2)){
+                    //on va supprimer les images ainsi que la miniatures avant l'upload des nouveaux fichiers.
+                     unlink($path.$donGames['img_game']);
+                     unlink($pathMini.$donGames['img_game']);
+    
+                    // on met une condition pour vérifier que le fichier c'est bien upploadé 
+                    // unlink($pathMini.$don['game_img']);
+                    // si l'image c'est bien envoyée alors on peut maintenant faire notre requête update pour transmettre les autres infos du jeux.
+                    $sqlUpdate =("UPDATE game SET name_game=:nameG, date_game=:dGame,describe_game=:descGame ,img_game=:img,bg_game=:bg WHERE PK_game=:id");
+        $reqUpdates = $bd -> prepare($sqlUpdate);
+        $reqUpdates -> execute(
+            [
+                "nameG" => $gameName,
+                "dGame" => $gameDate,
+                "descGame" => $gameDescribe,
+                "img" => $fichierRand,
+                "bg" => $fichierRand2,
+                "id" => $idUpdateGame
+            ]
+        );
+                }
+                $reqUpdates -> closeCursor();
+                if($extension === ".png"){
+                    header("LOCATION:redimPng.php?image=".$fichierRand);
+                }else{
+                   header("LOCATION:redim.php?image=".$fichierRand);
+                }
 
             }else{
                 header("LOCATION:update?id=".$donGames['PK_game']."&error=$err");

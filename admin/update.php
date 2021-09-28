@@ -109,7 +109,8 @@ echo'
     <textarea class="form-control" name="describe_game" id="describe_game" cols="30" rows="10">'.$don['describe_game'].'</textarea>
     <label for="describe_game" class="form-label">modifié image:</label>
     <input class="form-control" type="file" name="img_game" id="img_game">
-    
+    <label class="form-label" for="bg_game">Ajouter un background</label>
+        <input type="file" name="bg_game" id="bg_name" class="form-control">
     <button type="submit" class="btn btn-warning">Modifié</button>
     <a href="dashboard.php" class="btn btn-danger">Annuler</a>
     </form>

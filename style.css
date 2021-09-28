@@ -333,7 +333,7 @@ pointer-events: none;
 user-select: none;
 }
 .bgVar{
-    background:linear-gradient(to bottom, var(--colorHeadNav) 0px, transparent 150px),url("img/cyber.jpg") center 0px no-repeat var(--colorHeadNav);
+    background:linear-gradient(to bottom, var(--colorHeadNav) 0px, transparent 150px),url("") center 0px no-repeat var(--colorHeadNav);
     background-repeat: no-repeat;
     background-size: cover;
 }
