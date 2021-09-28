@@ -12,6 +12,7 @@
     <title>Home</title>
 </head>
 <body>
+  
     <header>
         <div class="wrapper">
         <h1><span>My</span>Games</h1>
@@ -38,10 +39,23 @@
             <li><a href="">Décroissant <i class="fas fa-sort-alpha-up-alt"></i></a></li>
             <li><a href="">année</a></li>
         </ul>
-        <li><a href="steam"><span>PC</span><i class="fas fa-desktop"></i></a></li>
-            <li><a href=""><span>Playstation</span><i class="fab fa-playstation"></i></a></a></li>
-            <li><a href=""><span>Xbox</span><i class="fab fa-xbox"></i></a></li>
-    </li>
+        <li><a href="index.php?action=home">Home</a></li>
+        <?php
+$navConsoles =('SELECT * from consoles');
+                        $reqCons = $bd -> query($navConsoles);
+                     
+
+                        while($donsConsoles = $reqCons -> fetch()){
+                        if($donsConsoles['names_consoles']=="playstation"){
+                            echo '<li> <a href="index.php?action=consoles&id='.$donsConsoles['PK_consoles'].'" class="cat"><span>PC</span><i class="fab fa-playstation"></i></a></li>';
+                        }elseif($donsConsoles['names_consoles']=="xbox"){
+                            echo '<li><a href="index.php?action=consoles&id='.$donsConsoles['PK_consoles'].'" class="cat"><span>Playstation</span><i class="fab fa-xbox"></i></a></li>';
+                        }elseif($donsConsoles['names_consoles']=="pc"){
+                            echo '<li><a href="index.php?action=consoles&id='.$donsConsoles['PK_consoles'].'" class="cat"><span>Xbox</span><i class="fas fa-desktop"></i></a></li>';
+                        }
+                        }
+                        $reqCons -> closeCursor();
+                        ?>
     <li class="menu">Catégories
         <ul class="sous">
 <li><a href="x">Croissant <i class="fas fa-sort-alpha-up"></i></a></li>
