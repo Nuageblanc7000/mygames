@@ -56,11 +56,15 @@ $navConsoles =('SELECT * from consoles');
                         }
                         $reqCons -> closeCursor();
                         ?>
-    <li class="menu">Catégories
+    <li class="menu">Genre
         <ul class="sous">
-<li><a href="x">Croissant <i class="fas fa-sort-alpha-up"></i></a></li>
-<li><a href="">Décroissant <i class="fas fa-sort-alpha-up-alt"></i></a></li>
-<li><a href="">année</a></li>
+        <?php
+            $navGenre =('SELECT * from genre');
+            $reqGenreNav = $bd -> query($navGenre);
+            while($donsGenresNav = $reqGenreNav -> fetch()){
+               echo' <li><a href="index.php?action=categories&id=&id='.$donsGenresNav['PK_genre'].'">'.$donsGenresNav['name_genre'].'</a></li>';
+            }
+            ?>            
 </ul>
 </li>
         </ul>
