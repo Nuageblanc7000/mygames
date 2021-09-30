@@ -27,6 +27,7 @@ echo'
 <tr>
  <td>'.$donGames['describe_game'].' </td>
  <td><a class="btn btn-warning" href="update.php?id='.$donGames['PK_game'].'">Modifier</a></td>
+ <td><a class="btn btn-primary" href="colorPicker.php?id='.$donGames['PK_game'].'">Color</a></td>
  <td><a class="btn btn-danger" href="deleteGame.php?id='.$donGames['PK_game'].'">Delete</a></td>
 </tr>
 </tbody>

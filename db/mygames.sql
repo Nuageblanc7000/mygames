@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mar. 28 sep. 2021 à 21:13
+-- Généré le : mer. 29 sep. 2021 à 22:32
 -- Version du serveur :  5.7.31
 -- Version de PHP : 7.3.21
 
@@ -58,20 +58,23 @@ CREATE TABLE IF NOT EXISTS `game` (
   `date_game` date DEFAULT NULL,
   `img_game` varchar(255) NOT NULL,
   `bg_game` varchar(255) DEFAULT NULL,
+  `date_ajout_game` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `theme` varchar(155) DEFAULT NULL,
   PRIMARY KEY (`PK_game`)
-) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `game`
 --
 
-INSERT INTO `game` (`PK_game`, `name_game`, `describe_game`, `date_game`, `img_game`, `bg_game`) VALUES
-(1, 'CyberPunk 2077', 'Cyberpunk 2077 est un jeu d’action-aventure en monde ouvert qui se déroule à Night City, une mégalopole obsédée par le pouvoir, la séduction et les modifications corporelles. \r\nVous incarnez V, mercenaire hors-la-loi à la recherche d’un implant unique qui serait la clé de l’immortalité.', '2020-12-10', '259811648CyberPunk.jfif', 'bgCyber.jpg'),
-(2, 'Ark Survival Evolved', 'En tant qu\'homme ou femme échoué nu, mourant de froid et de faim sur une île mystérieuse, vous devrez chasser, récolter, fabriquer des objets, faire pousser des plantes et construire des abris pour survivre.', '2017-08-03', 'ark.jpg', 'bgArk.JPG'),
-(4, 'Empyrion', 'Empyrion - Galactic Survival est un monde 3D ouvert, une aventure de survie spatiale dans laquelle vous pouvez naviguer à travers l\'espace et attérrir sur les planètes. Construisez, explorez, combattez et survivez dans une galaxie hostile pleine de dangers cachés.', '2020-08-05', 'empyrion.jpg', 'bgEmpyrion.jpg'),
-(17, 'Conan Exiles', 'Jeu de survie multijoueur en ligne, désormais agrémenté de montures et de combat monté, dans le monde de Conan le barbare. Survivez dans un monde immense de type bac à sable, construisez votre propre maison, fondez un royaume et dominez vos ennemis, en mode solo ou multijoueur.', '2018-05-08', '415623203ConanExiles.jpeg', '339699708BgConanExiles.jpg'),
-(20, 'Atlas', 'Mettez les voiles pour l’expérience pirate ultime! Embarquez pour une grande aventure aux côtés de milliers d’autres joueurs dans l’un des plus grands mondes de jeu jamais construits (et réclamez même un morceau de celui-ci pour appeler le vôtre). Construisez votre navire, rassemblez votre équipage, naviguez en haute mer et devenez une légende des pirates!', '2018-09-23', '154657454atlas.jpg', '1198149620bgAtlas.jpg'),
-(21, 'Black Desert Online', 'Black Desert est un MMORPG dans un monde vivant en constante évolution. Découvrez des combats rapides et dynamiques, chassez des monstres, terrassez des boss gigantesques, battez-vous aux côtés de vos partenaires de guilde lors de guerres, apprenez de nombreux métiers...', '2021-09-24', '1204716622blackDesert.jpg', '1969996633bgBlackDesert.jpg');
+INSERT INTO `game` (`PK_game`, `name_game`, `describe_game`, `date_game`, `img_game`, `bg_game`, `date_ajout_game`, `theme`) VALUES
+(1, 'CyberPunk 2077', 'Cyberpunk 2077 est un jeu d’action-aventure en monde ouvert qui se déroule à Night City, une mégalopole obsédée par le pouvoir, la séduction et les modifications corporelles. \r\nVous incarnez V, mercenaire hors-la-loi à la recherche d’un implant unique qui serait la clé de l’immortalité.', '2020-12-10', '259811648CyberPunk.jfif', 'bgCyber.jpg', '2021-10-02 18:45:59', NULL),
+(2, 'Ark Survival Evolved', 'En tant qu\'homme ou femme échoué nu, mourant de froid et de faim sur une île mystérieuse, vous devrez chasser, récolter, fabriquer des objets, faire pousser des plantes et construire des abris pour survivre.', '2017-08-03', 'ark.jpg', 'bgArk.JPG', '2021-09-13 18:44:28', NULL),
+(4, 'Empyrion', 'Empyrion - Galactic Survival est un monde 3D ouvert, une aventure de survie spatiale dans laquelle vous pouvez naviguer à travers l\'espace et attérrir sur les planètes. Construisez, explorez, combattez et survivez dans une galaxie hostile pleine de dangers cachés.', '2020-08-05', 'empyrion.jpg', 'bgEmpyrion.jpg', '2021-09-29 18:10:59', NULL),
+(17, 'Conan Exiles', 'Jeu de survie multijoueur en ligne, désormais agrémenté de montures et de combat monté, dans le monde de Conan le barbare. Survivez dans un monde immense de type bac à sable, construisez votre propre maison, fondez un royaume et dominez vos ennemis, en mode solo ou multijoueur.', '2018-05-08', '415623203ConanExiles.jpeg', '339699708BgConanExiles.jpg', '2021-09-29 18:10:59', NULL),
+(20, 'Atlas', 'Mettez les voiles pour l’expérience pirate ultime! Embarquez pour une grande aventure aux côtés de milliers d’autres joueurs dans l’un des plus grands mondes de jeu jamais construits (et réclamez même un morceau de celui-ci pour appeler le vôtre). Construisez votre navire, rassemblez votre équipage, naviguez en haute mer et devenez une légende des pirates!', '2018-09-23', '154657454atlas.jpg', '1198149620bgAtlas.jpg', '2021-09-29 18:10:59', NULL),
+(21, 'Black Desert Online', 'Black Desert est un MMORPG dans un monde vivant en constante évolution. Découvrez des combats rapides et dynamiques, chassez des monstres, terrassez des boss gigantesques, battez-vous aux côtés de vos partenaires de guilde lors de guerres, apprenez de nombreux métiers...', '2021-09-24', '1204716622blackDesert.jpg', '1969996633bgBlackDesert.jpg', '2021-09-29 18:10:59', NULL),
+(24, 'Skyrim', 'La rennaissance du fantastique, le nouveau chapitre très attendu de la saga Elder Scrolls nous arrive des créateurs du jeu de l\'année 2006 et 2008, Bethesda Game Studios. Skyrim réinvente et révolutionne le monde ouvert, ramenant à la vie un monde complet que vous pourrez librement explorer.', '2011-11-11', '261947040skyrim.jfif', '694152942bgSkyrim.jfif', '2021-09-29 23:30:07', NULL);
 
 -- --------------------------------------------------------
 
@@ -87,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `game_consoles` (
   PRIMARY KEY (`PK_game_consoles`),
   KEY `FK_game` (`FK_game`),
   KEY `FK_consoles` (`FK_consoles`)
-) ENGINE=MyISAM AUTO_INCREMENT=98 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=99 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `game_consoles`
@@ -101,6 +104,7 @@ INSERT INTO `game_consoles` (`PK_game_consoles`, `FK_game`, `FK_consoles`) VALUE
 (6, 4, 3),
 (33, 1, 2),
 (32, 1, 1),
+(98, 24, 3),
 (93, 17, 2),
 (92, 17, 1),
 (88, 20, 1),
@@ -137,8 +141,12 @@ INSERT INTO `game_genre` (`FK_genre`, `FK_game`) VALUES
 (12, 4),
 (11, 4),
 (4, 4),
+(2, 24),
+(1, 24),
 (8, 1),
 (2, 1),
+(9, 24),
+(4, 24),
 (4, 20),
 (8, 20),
 (9, 20),

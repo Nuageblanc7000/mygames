@@ -217,7 +217,7 @@ user-select: none;
     padding-right: 5px;
 }
 .menu{
-    display: flex;
+    display: none;
     justify-content: center;
     position: relative;
 }
@@ -506,4 +506,21 @@ footer a{
     object-fit: contain;
     margin: 0 auto;
     display: block;
+}
+
+/*si news*/
+.news{
+    background-color: #ff5400;
+    color: white;
+    position: absolute;
+    font-family: var(--categories);
+    font-size: 2rem;
+    z-index: 10;
+    top:0px;
+    right:0;
+}
+/*ColorPicker*/
+.picker{
+    height: 10rem;
+    width: 10rem;
 }

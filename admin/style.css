@@ -1,0 +1,7 @@
+/*ColorPicker*/
+.picker{
+    height: 10rem;
+    width: 10rem;
+    border-radius: 50%;
+    overflow: hidden;
+}

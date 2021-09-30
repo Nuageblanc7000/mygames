@@ -17,7 +17,7 @@
         <div class="wrapper">
         <h1><span>My</span>Games</h1>
         <div class="search">
-            <form action="home.php" method="post">
+            <form action="index.php?action=search" method="post">
                 <input type="search" name="search" id="search"placeholder="recherche...">
                 <button type="submit"><i class="fas fa-search"></i></button>
             </form>

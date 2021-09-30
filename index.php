@@ -10,7 +10,8 @@ $rooting =[
 "inscription" => "inscription.php",
 "games" => "games.php",
 "categories" => "categories.php",
-"consoles" => "consoles.php"
+"consoles" => "consoles.php",
+"search" => "search.php"
 ];
 //puis ici je vais vérfier que ce qui est dans mon get action est égale à ce qu'il y a dans le tableau
 if(array_key_exists($_GET['action'],$rooting))
