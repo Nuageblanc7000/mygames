@@ -28,7 +28,12 @@
     </div>
     </header>
     </div>
-    <div class="navVar">
+    <?php
+    if(isset($_GET['action']) and $_GET['action']=="games"){
+    echo '<div class="navVar" style="background-color:'.$don['theme'].'">';
+    }else{
+        echo '<div class="navVar">';
+    } ?>
     <div class="wrapper">
     <nav>
                 <div class="filter">

@@ -15,6 +15,7 @@ require "../connection.php";
     if($donVerifId = $reqVerifId ->fetch()){
         $err=12;
     }
+    $reqVerifId ->closeCursor();
 ?>
 
 <?php
@@ -22,8 +23,11 @@ include "includes/header.php";
 ?>
 <div class="container-fluid d-flex justify-content-center align-items-center min-vh-100"style="background:url(../img/<?= $donVerifId['bg_game'] ?>);background-repeat:no-repeat;background-size:cover;">
     <div class="row flex-columns">
-        <form class="d-flex flex-column align-items-center" action="treatmentTheme.php?id=<?= $id ?>">
-            <input class="picker" type="color" name="color" id="">
+<?php 
+echo '   
+    <form class="d-flex flex-column align-items-center" action="treatementPicker.php?id='.$donVerifId['PK_game'].'" method="post">';
+    ?>
+            <input class="picker" type="color" name="picker" id="">
             <button type="submit" class="btn btn-primary">Envoyer la couleur</button>
         </form>
     </div>

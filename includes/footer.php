@@ -1,7 +1,10 @@
 <?php
-?>
-
-<footer>
+if(isset($_GET['action']) and $_GET['action']=="games"){
+    echo '<footer style="background:'.$don['theme'].'">';
+    }else{
+        echo "<footer>";
+    } 
+    ?>
         <div class="wrapper">
 
             <p>&copy;W.R 2021-17-09</p>
